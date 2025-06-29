@@ -6,7 +6,8 @@ import {User} from "../models/user.model.js"
 
 const createBudget = asyncHandler(async(req,res)=>{
     const {category, amount, month} = req.body
-    const userId = req.user.userId
+    const userId = req.user?._id || req.user?.userId
+    if(!userId) throw new ApiError(401, "User Id not found")
     const budget = await Budget.create({
         userId,
         category,
@@ -20,7 +21,7 @@ const createBudget = asyncHandler(async(req,res)=>{
 })
 
 const getBudgets = asyncHandler(async(req,res)=>{
-    const budgets = await Budget.find({userId: req.user.userId})
+    const budgets = await Budget.find({userId:req.user._id || req.user.userId})
 
     if(!budgets.length) throw new ApiError(404, "No budgets found for this user")
     
@@ -31,7 +32,7 @@ const getBudgets = asyncHandler(async(req,res)=>{
 
 const getBudgetAlerts = asyncHandler(async(req,res)=>{
     const {threshold = 5000}  = req.query 
-    const budgets = await Budget.find({userId:req.user.userId})
+    const budgets = await Budget.find({userId:req.user._id || req.user.userId})
 
     if(!budgets.length) throw new ApiError(404, "No budgets found to analyze alerts")
 

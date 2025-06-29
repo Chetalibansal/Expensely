@@ -5,9 +5,10 @@ import { authorizeRoles } from "../middlewares/authorizeRole.middleware.js"
 
 const router = Router()
 
-router.route("/create").post(auth,createBudget)
-router.route("/getBudget").get(auth,getBudgets)
-router.route("/alerts").get(auth, getBudgetAlerts)
+router.route("/").post(auth,createBudget)
+router.route("/").get(auth,getBudgets)
+router.route("/:id").get(auth, getBudgetAlerts)
 router.route("/admin/users").get(auth, authorizeRoles("admin"), getAllUsers)
 
 export default router
+

@@ -16,13 +16,14 @@ app.use(cors({
 app.use(express.json()) 
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
-app.use('/api/v1/transactions', transactionRoutes)
-app.use('/api/v1/reports', reportRoutes);
+
 
 
 // apis 
 app.use("/api/v1/users", userRoute)
 app.use("/api/v1/budget", budgetRoute)
+app.use('/api/v1/transactions', transactionRoutes)
+app.use('/api/v1/reports', reportRoutes);
 
 
 export {app}
