@@ -3,7 +3,8 @@ import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import transactionRoutes from './routes/transaction.route.js';
 import reportRoutes from './routes/report.route.js';
-
+import userRoute from "./routes/user.route.js"
+import budgetRoute from "./routes/budget.route.js"
 
 
 const app = express()
@@ -19,9 +20,6 @@ app.use('/api/transactions', transactionRoutes)
 app.use('/api/reports', reportRoutes);
 
 
-// Routes
-import userRoute from "./routes/user.route.js"
-import budgetRoute from "./routes/budget.route.js"
 // apis 
 app.use("/api/v1/users", userRoute)
 app.use("/api/v1/budget", budgetRoute)
