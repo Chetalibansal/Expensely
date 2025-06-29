@@ -7,8 +7,8 @@ const router = Router()
 
 router.route("/").post(auth,createBudget)
 router.route("/").get(auth,getBudgets)
-router.route("/:id").get(auth, getBudgetAlerts)
-router.route("/admin/users").get(auth, authorizeRoles("admin"), getAllUsers)
+router.route("/alerts").get(auth, getBudgetAlerts)
+router.route("/admin").get(auth, authorizeRoles("admin"), getAllUsers)
 
 export default router
 

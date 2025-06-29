@@ -31,13 +31,13 @@ const getBudgets = asyncHandler(async(req,res)=>{
 })
 
 const getBudgetAlerts = asyncHandler(async(req,res)=>{
-    const {threshold = 5000}  = req.query 
+    const {threshold=5000}  = req.query 
     const budgets = await Budget.find({userId:req.user._id || req.user.userId})
 
     if(!budgets.length) throw new ApiError(404, "No budgets found to analyze alerts")
 
-    const alerts = budgets.filter(b=>b.amount>threshold);
-    return res.status(200).json(200, alerts, "budget alerts")
+    const alerts = budgets.filter(b=>b.amount>Number(threshold));
+    return res.status(200).json(new ApiResponse(200, alerts, "Budget alerts fetched successfully"))
 })
 
 const getAllUsers = asyncHandler(async(req,res)=>{
