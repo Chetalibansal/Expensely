@@ -1,5 +1,5 @@
 import Transaction from '../models/transaction.model.js';
-import asyncHandler from '../utils/asyncHandler.js';
+import {asyncHandler} from '../utils/asyncHandler.js';
 
 export const createTransaction = asyncHandler(async (req, res) => {
   const { amount, type, category, description, date } = req.body;

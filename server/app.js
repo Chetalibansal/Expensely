@@ -21,8 +21,10 @@ app.use('/api/reports', reportRoutes);
 
 // Routes
 import userRoute from "./routes/user.route.js"
+import budgetRoute from "./routes/budget.route.js"
 // apis 
 app.use("/api/v1/users", userRoute)
+app.use("/api/v1/budget", budgetRoute)
 
 
 export {app}

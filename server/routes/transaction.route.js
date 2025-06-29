@@ -5,11 +5,11 @@ import {
   updateTransaction,
   deleteTransaction,
 } from '../controllers/transaction.controller.js';
-import { isAuthenticated } from '../middlewares/auth.middleware.js';
+import auth  from '../middlewares/auth.middleware.js';
 
 const router = express.Router();
 
-router.use(isAuthenticated);
+router.use(auth);
 
 router.post('/', createTransaction);
 router.get('/', getTransactions);
