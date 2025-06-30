@@ -47,21 +47,25 @@ export const getSummary = asyncHandler(async (req, res) => {
     const transactions = await Transaction.find(filter);
 
     let income = 0, expense = 0;
-    const categoryBreakdown = {};
+   const incomeBreakdown = {};
+  const expenseBreakdown = {};
 
-    transactions.forEach(tx => {
-        if (tx.type === 'income') income += tx.amount;
-        else expense += tx.amount;
-
-        if (!categoryBreakdown[tx.category]) categoryBreakdown[tx.category] = 0;
-        categoryBreakdown[tx.category] += tx.amount;
-    });
+  transactions.forEach(tx => {
+    if (tx.type === 'income') {
+      income += tx.amount;
+      incomeBreakdown[tx.category] = (incomeBreakdown[tx.category] || 0) + tx.amount;
+    } else {
+      expense += tx.amount;
+      expenseBreakdown[tx.category] = (expenseBreakdown[tx.category] || 0) + tx.amount;
+    }
+  });
 
     res.status(200).json({
         totalIncome: income,
         totalExpense: expense,
         totalSavings: income - expense,
-        breakdown: categoryBreakdown
+        incomeByCategory: incomeBreakdown,
+        expenseByCategory: expenseBreakdown
     });
 });
 
