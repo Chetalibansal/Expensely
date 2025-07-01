@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+.input {
+  @apply w-full p-2 border border-gray-300 rounded;
+}
+
+.btn {
+  @apply transition hover:opacity-90 font-semibold;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
