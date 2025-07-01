@@ -1,5 +1,5 @@
 import Transaction from '../models/transaction.model.js';
-import asyncHandler from '../utils/asyncHandler.js';
+import {asyncHandler} from '../utils/asyncHandler.js';
 import { Parser } from 'json2csv';
 import fs from 'fs';
 import path from 'path';

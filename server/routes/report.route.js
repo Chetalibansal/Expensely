@@ -1,5 +1,5 @@
 import express from 'express';
-import { isAuthenticated } from '../middlewares/auth.middleware.js';
+import auth from '../middlewares/auth.middleware.js';
 import {
   getSummary,
   downloadReport,
@@ -9,7 +9,7 @@ import {
 
 const router = express.Router();
 
-router.use(isAuthenticated);
+router.use(auth);
 
 router.get('/summary', getSummary);
 router.get('/download', downloadReport);
