@@ -1,54 +1,72 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { loginUser } from '../../services/authService';
+// src/pages/auth/LoginForm.jsx
+
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { loginUser } from "../../services/authService";
+import toast from "react-hot-toast";
 
 const LoginForm = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
 
-  const handleLogin = async (e) => {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: ""
+  });
+
+  const handleChange = (e) => {
+    setFormData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      setLoading(true);
-      const { token, user } = await loginUser(email, password);
+    // 🔍 Debug log
+    console.log("Sending form data:", formData);
 
-      localStorage.setItem('authToken', token);
-      localStorage.setItem('userEmail', user.email);
-      navigate('/dashboard');
+    try {
+      const res = await loginUser(formData); // no token expected
+      console.log("Login response:", res);
+
+      if (res.success) {
+        toast.success(res.message || "Login successful");
+        navigate("/dashboard");
+      } else {
+        toast.error("Login failed");
+      }
     } catch (err) {
-      alert(err.message || 'Login failed');
-    } finally {
-      setLoading(false);
+      console.error("Login error:", err.response?.data || err.message);
+      toast.error(err?.response?.data?.message || "Login failed");
     }
   };
 
   return (
-    <form onSubmit={handleLogin} className="space-y-4">
+    <form onSubmit={handleSubmit} className="w-full max-w-sm mx-auto space-y-4">
       <input
         type="email"
+        name="email"
         placeholder="Email"
-        className="w-full px-4 py-2 border rounded-md"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        value={formData.email}
+        onChange={handleChange}
+        className="w-full p-2 border rounded"
         required
       />
       <input
         type="password"
+        name="password"
         placeholder="Password"
-        className="w-full px-4 py-2 border rounded-md"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        value={formData.password}
+        onChange={handleChange}
+        className="w-full p-2 border rounded"
         required
       />
       <button
         type="submit"
-        disabled={loading}
-        className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
+        className="w-full bg-black text-white py-2 rounded hover:bg-gray-800 transition"
       >
-        {loading ? 'Logging in...' : 'Login'}
+        Login
       </button>
     </form>
   );

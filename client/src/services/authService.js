@@ -1,16 +1,22 @@
 import axios from 'axios';
 
-const API_BASE = 'http://localhost:5000/api';
+const API_BASE = "http://localhost:5000/api/v1/users";
 
-export const loginUser = async (email, password) => {
-  const response = await axios.post(`${API_BASE}/login`, { email, password });
-  return response.data;
+
+// services/authService.js
+export const loginUser = async (data) => {
+  const res = await axios.post("http://localhost:5000/api/v1/users/login", data, {
+    withCredentials: true, // allow cookies if needed
+  });
+  return res.data;
 };
 
-export const signupUser = async (name, email, password) => {
-  const response = await axios.post(`${API_BASE}/signup`, { name, email, password });
-  return response.data;
+
+export const signupUser = async (data) => {
+  const res = await axios.post(`${API_BASE}/register`, data);
+  return res.data;
 };
+
 
 export const logoutUser = () => {
   localStorage.removeItem('authToken');
